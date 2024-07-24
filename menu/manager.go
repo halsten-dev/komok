@@ -41,6 +41,7 @@ func (m *Manager) ConstructMainMenu() *fyne.MainMenu {
 
 		for _, item := range menu.Items {
 			item.Instance = fyne.NewMenuItem(item.Label, item.Action)
+			item.Instance.Shortcut = &item.Shortcut
 			m.scm.RegisterShortcut(&item.Shortcut, item.Action)
 			m.window.Canvas().AddShortcut(&item.Shortcut, m.triggerCanvasShortcut)
 			items = append(items, item.Instance)
