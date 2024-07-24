@@ -16,6 +16,7 @@ func NewManager(win fyne.Window, scm *komok.ShortcutsManager) *Manager {
 	return &Manager{
 		window: win,
 		scm:    scm,
+		Menus:  map[string]*Menu{},
 	}
 }
 
