@@ -20,3 +20,12 @@
 # Go workspace file
 go.work
 go.work.sum
+
+# GoLand
+.idea/
+
+# Env
+*.env
+
+# Temp
+src/tmp
