@@ -2,6 +2,7 @@ package menu
 
 import (
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/driver/desktop"
 	"github.com/chicogamedev/komok"
 )
 
@@ -24,7 +25,7 @@ func (m *Manager) CreateMenu(id, label string) {
 	m.Menus[id] = menu
 }
 
-func (m *Manager) CreateMenuItem(menuID, id, label string, shortcut fyne.Shortcut, action func(),
+func (m *Manager) CreateMenuItem(menuID, id, label string, shortcut desktop.CustomShortcut, action func(),
 	activationCondition func() bool) {
 	item := newItem(id, label, shortcut, action, activationCondition)
 
@@ -39,8 +40,8 @@ func (m *Manager) ConstructMainMenu() *fyne.MainMenu {
 
 		for _, item := range menu.Items {
 			item.Instance = fyne.NewMenuItem(item.Label, item.Action)
-			m.scm.RegisterShortcut(item.Shortcut, item.Action)
-			m.window.Canvas().AddShortcut(item.Shortcut, m.triggerCanvasShortcut)
+			m.scm.RegisterShortcut(&item.Shortcut, item.Action)
+			m.window.Canvas().AddShortcut(&item.Shortcut, m.triggerCanvasShortcut)
 			items = append(items, item.Instance)
 		}
 

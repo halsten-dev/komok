@@ -1,21 +1,24 @@
 package menu
 
-import "fyne.io/fyne/v2"
+import (
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/driver/desktop"
+)
 
 type Item struct {
 	ID                  string
 	Label               string
-	Shortcut            fyne.Shortcut
+	Shortcut            desktop.CustomShortcut
 	Action              func()
 	ActivationCondition func() bool
 	Instance            *fyne.MenuItem
 }
 
-func newItem(id, label string, shortcut fyne.Shortcut,
+func newItem(id, label string, shortcut desktop.CustomShortcut,
 	action func(), activationCondition func() bool) *Item {
 	return &Item{
 		ID:                  id,
-		Text:                label,
+		Label:               label,
 		Shortcut:            shortcut,
 		Action:              action,
 		ActivationCondition: activationCondition,
