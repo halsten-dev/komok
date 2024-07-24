@@ -5,33 +5,33 @@ import (
 	"github.com/chicogamedev/komok"
 )
 
-type manager struct {
-	window *fyne.Window
+type Manager struct {
+	window fyne.Window
 	scm    *komok.ShortcutsManager
 	Menus  map[string]*Menu
 }
 
-func NewManager(win *fyne.Window, scm *komok.ShortcutsManager) *manager {
-	return &manager{
+func NewManager(win fyne.Window, scm *komok.ShortcutsManager) *Manager {
+	return &Manager{
 		window: win,
 		scm:    scm,
 	}
 }
 
-func (m *manager) CreateMenu(id, label string) {
+func (m *Manager) CreateMenu(id, label string) {
 	menu := newMenu(id, label)
 
 	m.Menus[id] = menu
 }
 
-func (m *manager) CreateMenuItem(menuID, id, label string, shortcut fyne.Shortcut, action func(),
+func (m *Manager) CreateMenuItem(menuID, id, label string, shortcut fyne.Shortcut, action func(),
 	activationCondition func() bool) {
 	item := newItem(id, label, shortcut, action, activationCondition)
 
 	m.Menus[menuID].Items[id] = item
 }
 
-func (m *manager) ConstructMainMenu() *fyne.MainMenu {
+func (m *Manager) ConstructMainMenu() *fyne.MainMenu {
 	var menus []*fyne.Menu
 
 	for _, menu := range m.Menus {
@@ -51,7 +51,7 @@ func (m *manager) ConstructMainMenu() *fyne.MainMenu {
 	return fyne.NewMainMenu(menus...)
 }
 
-func (m *manager) UpdateMenu() {
+func (m *Manager) UpdateMenu() {
 	for _, menu := range m.Menus {
 		for _, item := range menu.Items {
 			active := item.ActivationCondition()
@@ -60,6 +60,6 @@ func (m *manager) UpdateMenu() {
 	}
 }
 
-func (m *manager) triggerCanvasShortcut(shortcut fyne.Shortcut) {
+func (m *Manager) triggerCanvasShortcut(shortcut fyne.Shortcut) {
 	m.scm.TriggerShortcut(shortcut)
 }
