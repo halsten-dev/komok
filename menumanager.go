@@ -7,10 +7,11 @@ import (
 
 // menu defines an individual menu
 type menu struct {
-	ID       string
-	Label    string
-	Items    map[string]*menuItem
-	Instance *fyne.Menu
+	ID           string
+	Label        string
+	Items        map[string]*menuItem
+	ItemsIDOrder []string
+	Instance     *fyne.Menu
 }
 
 // newMenu creates a *menu and returns it
@@ -46,9 +47,10 @@ func newMenuItem(id, label string, shortcut *desktop.CustomShortcut,
 
 // MenuManager is the holder of everything concerning the applications menus
 type MenuManager struct {
-	window fyne.Window
-	scm    *ShortcutsManager
-	Menus  map[string]*menu
+	window       fyne.Window
+	scm          *ShortcutsManager
+	Menus        map[string]*menu
+	MenusIDOrder []string
 }
 
 // NewMenuManager takes the window and the shortcutsManager and initialize a new *MenuManager
@@ -65,6 +67,7 @@ func (m *MenuManager) CreateMenu(id, label string) {
 	menu := newMenu(id, label)
 
 	m.Menus[id] = menu
+	m.MenusIDOrder = append(m.MenusIDOrder, id)
 }
 
 // CreateMenuItem creates a new menu item for the given menu
@@ -73,16 +76,20 @@ func (m *MenuManager) CreateMenuItem(menuID, id, label string, shortcut *desktop
 
 	item := newMenuItem(id, label, shortcut, action, activationCondition)
 	m.Menus[menuID].Items[id] = item
+	m.Menus[menuID].ItemsIDOrder = append(m.Menus[menuID].ItemsIDOrder, id)
 }
 
 // ConstructMainMenu is use to build the fyne.MainMenu based on the MenuManager definition
 func (m *MenuManager) ConstructMainMenu() *fyne.MainMenu {
 	var menus []*fyne.Menu
 
-	for _, menu := range m.Menus {
+	for _, menuID := range m.MenusIDOrder {
 		var items []*fyne.MenuItem
+		menu := m.Menus[menuID]
 
-		for _, item := range menu.Items {
+		for _, itemID := range menu.ItemsIDOrder {
+			item := menu.Items[itemID]
+
 			item.Instance = fyne.NewMenuItem(item.Label, item.Action)
 
 			if item.Shortcut != nil {
