@@ -10,14 +10,23 @@ type FixedAutoSize struct {
 	fixedSize  float32
 	padding    float32
 	horizontal bool
+	reversed   bool
 }
 
 func NewFixedAutoSizeLayout(fixedSize float32, horizontal bool) fyne.Layout {
-	return &FixedAutoSize{fixedSize, 0, horizontal}
+	return &FixedAutoSize{fixedSize, 0, horizontal, false}
 }
 
 func NewFixedAutoSizeLayoutPadded(fixedSize float32, padding float32, horizontal bool) fyne.Layout {
-	return &FixedAutoSize{fixedSize, padding, horizontal}
+	return &FixedAutoSize{fixedSize, padding, horizontal, false}
+}
+
+func NewFixedAutoSizeLayoutReversed(fixedSize float32, horizontal bool) fyne.Layout {
+	return &FixedAutoSize{fixedSize, 0, horizontal, true}
+}
+
+func NewFixedAutoSizeLayoutPaddedReversed(fixedSize float32, padding float32, horizontal bool) fyne.Layout {
+	return &FixedAutoSize{fixedSize, padding, horizontal, false}
 }
 
 func (fas *FixedAutoSize) MinSize(objects []fyne.CanvasObject) fyne.Size {
@@ -46,16 +55,30 @@ func (fas *FixedAutoSize) Layout(objects []fyne.CanvasObject, containerSize fyne
 
 	object1.Move(topLeft)
 
-	if fas.horizontal {
-		object1.Resize(fyne.NewSize(fas.fixedSize, containerSize.Height))
+	if !fas.reversed {
+		if fas.horizontal {
+			object1.Resize(fyne.NewSize(fas.fixedSize, containerSize.Height))
 
-		object2.Move(topLeft.AddXY(object1.Size().Width+fas.padding, 0))
-		object2.Resize(fyne.NewSize(containerSize.Width-fas.fixedSize-fas.padding, containerSize.Height))
+			object2.Move(topLeft.AddXY(object1.Size().Width+fas.padding, 0))
+			object2.Resize(fyne.NewSize(containerSize.Width-fas.fixedSize-fas.padding, containerSize.Height))
+		} else {
+			object1.Resize(fyne.NewSize(containerSize.Width, fas.fixedSize))
+
+			object2.Move(topLeft.AddXY(0, object1.Size().Height+fas.padding))
+			object2.Resize(fyne.NewSize(containerSize.Width, containerSize.Height-fas.fixedSize-fas.padding))
+		}
 	} else {
-		object1.Resize(fyne.NewSize(containerSize.Width, fas.fixedSize))
+		if fas.horizontal {
+			object1.Resize(fyne.NewSize(containerSize.Width-fas.fixedSize-fas.padding, containerSize.Height))
 
-		object2.Move(topLeft.AddXY(0, object1.Size().Height+fas.padding))
-		object2.Resize(fyne.NewSize(containerSize.Width, containerSize.Height-fas.fixedSize-fas.padding))
+			object2.Move(topLeft.AddXY(object1.Size().Width+fas.padding, 0))
+			object2.Resize(fyne.NewSize(fas.fixedSize, containerSize.Height))
+		} else {
+			object1.Resize(fyne.NewSize(containerSize.Width, containerSize.Height-fas.fixedSize-fas.padding))
+
+			object2.Move(topLeft.AddXY(0, object1.Size().Height+fas.padding))
+			object2.Resize(fyne.NewSize(containerSize.Width, fas.fixedSize))
+		}
 	}
 
 }
