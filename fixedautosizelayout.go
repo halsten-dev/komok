@@ -50,12 +50,12 @@ func (fas *FixedAutoSize) Layout(objects []fyne.CanvasObject, containerSize fyne
 		object1.Resize(fyne.NewSize(fas.fixedSize, containerSize.Height))
 
 		object2.Move(topLeft.AddXY(object1.Size().Width+fas.padding, 0))
-		object2.Resize(fyne.NewSize(containerSize.Width-fas.fixedSize, containerSize.Height))
+		object2.Resize(fyne.NewSize(containerSize.Width-fas.fixedSize-fas.padding, containerSize.Height))
 	} else {
 		object1.Resize(fyne.NewSize(containerSize.Width, fas.fixedSize))
 
 		object2.Move(topLeft.AddXY(0, object1.Size().Height+fas.padding))
-		object2.Resize(fyne.NewSize(containerSize.Width, containerSize.Height-fas.fixedSize))
+		object2.Resize(fyne.NewSize(containerSize.Width, containerSize.Height-fas.fixedSize-fas.padding))
 	}
 
 }
