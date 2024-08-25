@@ -87,13 +87,15 @@ func NewNumericalEntry(sm *ShortcutsManager, round bool) *Entry {
 	e.round = round
 
 	e.Validator = func(s string) error {
-		if e.onlyNumerical {
-			numericalValue, _ = strconv.ParseFloat(e.Text, 64)
+		if len(s) > 0 {
+			if e.onlyNumerical {
+				numericalValue, _ = strconv.ParseFloat(e.Text, 64)
 
-			if e.round {
-				e.Text = strconv.Itoa(int(math.Round(numericalValue)))
-			} else {
-				e.Text = strconv.FormatFloat(numericalValue, 'f', -1, 64)
+				if e.round {
+					e.Text = strconv.Itoa(int(math.Round(numericalValue)))
+				} else {
+					e.Text = strconv.FormatFloat(numericalValue, 'f', -1, 64)
+				}
 			}
 		}
 
