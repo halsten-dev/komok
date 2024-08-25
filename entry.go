@@ -4,6 +4,8 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/driver/desktop"
 	"fyne.io/fyne/v2/widget"
+	"math"
+	"strconv"
 )
 
 type Entry struct {
@@ -11,6 +13,8 @@ type Entry struct {
 	tabManagement    bool
 	selectAllOnFocus bool
 	shortcutsManager *ShortcutsManager
+	onlyNumerical    bool
+	round            bool
 }
 
 func (e *Entry) TypedShortcut(s fyne.Shortcut) {
@@ -33,6 +37,29 @@ func (e *Entry) FocusGained() {
 	}
 }
 
+func (e *Entry) Validate() error {
+	var err error
+	var numericalValue float64
+
+	err = e.Entry.Validate()
+
+	if err != nil {
+		return err
+	}
+
+	if e.onlyNumerical {
+		numericalValue, _ = strconv.ParseFloat(e.Text, 64)
+
+		if e.round {
+			e.Text = strconv.Itoa(int(math.Round(numericalValue)))
+		} else {
+			e.Text = strconv.FormatFloat(numericalValue, 'f', -1, 64)
+		}
+	}
+
+	return nil
+}
+
 // SelectAll selects all the text in the entry.
 func (e *Entry) SelectAll() {
 	e.TypedShortcut(&fyne.ShortcutSelectAll{})
@@ -46,6 +73,10 @@ func NewEntry(sm *ShortcutsManager) *Entry {
 	e := &Entry{}
 	e.shortcutsManager = sm
 	e.Wrapping = fyne.TextWrap(fyne.TextTruncateClip)
+	e.onlyNumerical = false
+	e.round = false
+	e.tabManagement = false
+
 	e.ExtendBaseWidget(e)
 	return e
 }
@@ -55,12 +86,26 @@ func NewMultilineEntry(sm *ShortcutsManager, tm bool, wrap bool) *Entry {
 	e.shortcutsManager = sm
 	e.MultiLine = true
 	e.tabManagement = tm
+	e.onlyNumerical = false
+	e.round = false
 
 	if wrap {
-		e.Wrapping = fyne.TextWrap(fyne.TextWrapWord)
+		e.Wrapping = fyne.TextWrapWord
 	} else {
 		e.Wrapping = fyne.TextWrap(fyne.TextTruncateClip)
 	}
+
+	e.ExtendBaseWidget(e)
+	return e
+}
+
+func NewNumericalEntry(sm *ShortcutsManager, roundUp bool) *Entry {
+	e := &Entry{}
+	e.shortcutsManager = sm
+	e.MultiLine = false
+	e.tabManagement = false
+	e.onlyNumerical = true
+	e.round = roundUp
 
 	e.ExtendBaseWidget(e)
 	return e
