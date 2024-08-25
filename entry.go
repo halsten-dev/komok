@@ -37,29 +37,6 @@ func (e *Entry) FocusGained() {
 	}
 }
 
-func (e *Entry) Validate() error {
-	var err error
-	var numericalValue float64
-
-	err = e.Entry.Validate()
-
-	if err != nil {
-		return err
-	}
-
-	if e.onlyNumerical {
-		numericalValue, _ = strconv.ParseFloat(e.Text, 64)
-
-		if e.round {
-			e.Text = strconv.Itoa(int(math.Round(numericalValue)))
-		} else {
-			e.Text = strconv.FormatFloat(numericalValue, 'f', -1, 64)
-		}
-	}
-
-	return nil
-}
-
 // SelectAll selects all the text in the entry.
 func (e *Entry) SelectAll() {
 	e.TypedShortcut(&fyne.ShortcutSelectAll{})
@@ -100,12 +77,28 @@ func NewMultilineEntry(sm *ShortcutsManager, tm bool, wrap bool) *Entry {
 }
 
 func NewNumericalEntry(sm *ShortcutsManager, round bool) *Entry {
+	var numericalValue float64
+
 	e := &Entry{}
 	e.shortcutsManager = sm
 	e.MultiLine = false
 	e.tabManagement = false
 	e.onlyNumerical = true
 	e.round = round
+
+	e.Validator = func(s string) error {
+		if e.onlyNumerical {
+			numericalValue, _ = strconv.ParseFloat(e.Text, 64)
+
+			if e.round {
+				e.Text = strconv.Itoa(int(math.Round(numericalValue)))
+			} else {
+				e.Text = strconv.FormatFloat(numericalValue, 'f', -1, 64)
+			}
+		}
+
+		return nil
+	}
 
 	e.ExtendBaseWidget(e)
 	return e
