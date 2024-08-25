@@ -15,6 +15,10 @@ func NewFormFromStruct(sm *ShortcutsManager, s interface{}) *widget.Form {
 
 	t := reflect.TypeOf(s)
 
+	if t.Kind() == reflect.Ptr {
+		t = t.Elem()
+	}
+
 	for i := 0; i < t.NumField(); i++ {
 		field := t.Field(i)
 		fieldName := field.Name
