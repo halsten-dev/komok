@@ -99,13 +99,13 @@ func NewMultilineEntry(sm *ShortcutsManager, tm bool, wrap bool) *Entry {
 	return e
 }
 
-func NewNumericalEntry(sm *ShortcutsManager, roundUp bool) *Entry {
+func NewNumericalEntry(sm *ShortcutsManager, round bool) *Entry {
 	e := &Entry{}
 	e.shortcutsManager = sm
 	e.MultiLine = false
 	e.tabManagement = false
 	e.onlyNumerical = true
-	e.round = roundUp
+	e.round = round
 
 	e.ExtendBaseWidget(e)
 	return e
