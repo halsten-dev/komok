@@ -26,7 +26,7 @@ func NewFixedAutoSizeLayoutReversed(fixedSize float32, horizontal bool) fyne.Lay
 }
 
 func NewFixedAutoSizeLayoutPaddedReversed(fixedSize float32, padding float32, horizontal bool) fyne.Layout {
-	return &FixedAutoSize{fixedSize, padding, horizontal, false}
+	return &FixedAutoSize{fixedSize, padding, horizontal, true}
 }
 
 func (fas *FixedAutoSize) MinSize(objects []fyne.CanvasObject) fyne.Size {
