@@ -1,4 +1,4 @@
-package komok
+package manager
 
 import "fyne.io/fyne/v2"
 

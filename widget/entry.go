@@ -1,9 +1,10 @@
-package komok
+package widget
 
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/driver/desktop"
 	"fyne.io/fyne/v2/widget"
+	"github.com/chicogamedev/komok/manager"
 	"math"
 	"strconv"
 )
@@ -12,7 +13,7 @@ type Entry struct {
 	widget.Entry
 	tabManagement    bool
 	selectAllOnFocus bool
-	shortcutsManager *ShortcutsManager
+	shortcutsManager *manager.ShortcutsManager
 	onlyNumerical    bool
 	round            bool
 }
@@ -46,7 +47,7 @@ func (e *Entry) SetSelectAllOnFocus(b bool) {
 	e.selectAllOnFocus = b
 }
 
-func NewEntry(sm *ShortcutsManager) *Entry {
+func NewEntry(sm *manager.ShortcutsManager) *Entry {
 	e := &Entry{}
 	e.shortcutsManager = sm
 	e.Wrapping = fyne.TextWrap(fyne.TextTruncateClip)
@@ -58,7 +59,7 @@ func NewEntry(sm *ShortcutsManager) *Entry {
 	return e
 }
 
-func NewMultilineEntry(sm *ShortcutsManager, tm bool, wrap bool) *Entry {
+func NewMultilineEntry(sm *manager.ShortcutsManager, tm bool, wrap bool) *Entry {
 	e := &Entry{}
 	e.shortcutsManager = sm
 	e.MultiLine = true
@@ -76,7 +77,7 @@ func NewMultilineEntry(sm *ShortcutsManager, tm bool, wrap bool) *Entry {
 	return e
 }
 
-func NewNumericalEntry(sm *ShortcutsManager, round bool) *Entry {
+func NewNumericalEntry(sm *manager.ShortcutsManager, round bool) *Entry {
 	var numericalValue float64
 
 	e := &Entry{}

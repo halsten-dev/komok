@@ -1,4 +1,4 @@
-package komok
+package layout
 
 import (
 	"fyne.io/fyne/v2"
