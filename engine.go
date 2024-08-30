@@ -15,8 +15,12 @@ type Engine struct {
 	Window          fyne.Window
 }
 
+type Signal interface {
+	GetCode() string
+}
+
 type System interface {
-	HandleSignal(e *Engine, s string)
+	HandleSignal(e *Engine, s Signal)
 }
 
 func InitAppEngine(window fyne.Window) {
@@ -38,7 +42,7 @@ func (k *Engine) RegisterSystem(code string, system System) {
 	k.Systems[code] = system
 }
 
-func (k *Engine) SendSignal(s string) {
+func (k *Engine) SendSignal(s Signal) {
 	for id := range k.Systems {
 		k.Systems[id].HandleSignal(k, s)
 	}
