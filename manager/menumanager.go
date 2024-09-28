@@ -79,6 +79,10 @@ func (m *MenuManager) CreateMenuItem(menuID, id, label string, shortcut *desktop
 	m.Menus[menuID].ItemsIDOrder = append(m.Menus[menuID].ItemsIDOrder, id)
 }
 
+func (m *MenuManager) CreateMenuSeparator(menuID string) {
+	m.Menus[menuID].ItemsIDOrder = append(m.Menus[menuID].ItemsIDOrder, "separator")
+}
+
 // ConstructMainMenu is use to build the fyne.MainMenu based on the MenuManager definition
 func (m *MenuManager) ConstructMainMenu() *fyne.MainMenu {
 	var menus []*fyne.Menu
@@ -88,6 +92,11 @@ func (m *MenuManager) ConstructMainMenu() *fyne.MainMenu {
 		menu := m.Menus[menuID]
 
 		for _, itemID := range menu.ItemsIDOrder {
+			if itemID == "separator" {
+				items = append(items, fyne.NewMenuItemSeparator())
+				continue
+			}
+
 			item := menu.Items[itemID]
 
 			item.Instance = fyne.NewMenuItem(item.Label, item.Action)
