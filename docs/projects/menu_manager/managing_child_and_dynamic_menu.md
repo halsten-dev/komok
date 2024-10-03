@@ -28,3 +28,6 @@ But the hardest part in this, is that the childmenu needs to be dynamic and upda
 
 So the item list of this menu will need constant update. Everytime we open a project in DevTracker
 the menu should be updated.
+
+I guess that a function that returns a list of menuitems that is called at every menu update should
+work fine enough.

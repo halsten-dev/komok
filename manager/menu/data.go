@@ -1,0 +1,111 @@
+package menu
+
+import (
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/driver/desktop"
+)
+
+type orderCounter struct {
+	// menuOrderCounter contains the current order for the main menu bar and menuItemID
+	// "main" key is reserved for the main menu bar menu order counter
+	menuOrderCounter map[string]int
+
+	// menuItemsOrderCounter contains the current order for any given menuID
+	menuItemsOrderCounter map[string]int
+}
+
+func newOrderCounter() *orderCounter {
+	oc := &orderCounter{
+		menuOrderCounter:      make(map[string]int),
+		menuItemsOrderCounter: make(map[string]int),
+	}
+
+	oc.menuOrderCounter["main"] = 0
+
+	return oc
+}
+
+func (oc *orderCounter) getNextMenuOrder(itemID string) int {
+	if itemID == "" {
+		itemID = "main"
+	}
+
+	order := oc.menuOrderCounter[itemID]
+
+	oc.menuItemsOrderCounter[itemID]++
+
+	return order
+}
+
+func (oc *orderCounter) getNextMenuItemOrder(menuID string) int {
+	order := oc.menuItemsOrderCounter[menuID]
+
+	oc.menuItemsOrderCounter[menuID]++
+
+	return order
+}
+
+// menu defines an individual menu
+type menu struct {
+	ID       string
+	Label    string
+	Order    int
+	Instance *fyne.Menu
+	IsChild  bool
+	ItemID   string
+}
+
+// newMenu creates a *menu and returns it
+func newMenu(id, label string, order int) *menu {
+	return &menu{
+		ID:      id,
+		Label:   label,
+		Order:   order,
+		IsChild: false,
+	}
+}
+
+func newChildMenu(id, itemID string, order int) *menu {
+	return &menu{
+		ID:      id,
+		Order:   order,
+		IsChild: true,
+		ItemID:  itemID,
+	}
+}
+
+// menuItem defines an individual menu item
+type menuItem struct {
+	ID                  string
+	MenuID              string
+	Label               string
+	Order               int
+	Shortcut            *desktop.CustomShortcut
+	Action              func()
+	ActivationCondition func() bool
+	Instance            *fyne.MenuItem
+	IsSeparator         bool
+}
+
+// newMenuItem creates a new menu item and returns it as *menuItem
+func newMenuItem(id, menuID, label string, shortcut *desktop.CustomShortcut,
+	action func(), activationCondition func() bool, order int) *menuItem {
+	return &menuItem{
+		ID:                  id,
+		MenuID:              menuID,
+		Label:               label,
+		Order:               order,
+		Shortcut:            shortcut,
+		Action:              action,
+		ActivationCondition: activationCondition,
+		IsSeparator:         false,
+	}
+}
+
+func newMenuItemSeparator(menuID string, order int) *menuItem {
+	return &menuItem{
+		MenuID:      menuID,
+		Order:       order,
+		IsSeparator: true,
+	}
+}
