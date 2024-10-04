@@ -60,12 +60,19 @@ func (m *Manager) CreateMenuItem(menuID, id, label string, shortcut *desktop.Cus
 	m.OrderCounter.menuOrderCounter[id] = 0
 }
 
+// CreateMenuSeparator creates a new menu item separator
 func (m *Manager) CreateMenuSeparator(menuID string) {
 	order := m.OrderCounter.getNextMenuItemOrder(menuID)
 	item := newMenuItemSeparator(menuID, order)
 	m.MenusItems[fmt.Sprintf("%s#sep#%v", menuID, order)] = item
 }
 
+// GetMenu returns the menu for the given menuID
+func (m *Manager) GetMenu(menuID string) *menu {
+	return m.Menus[menuID]
+}
+
+// getMenus returns the list of menus that are not children
 func (m *Manager) getMenus() []*menu {
 	var menus []*menu
 
@@ -82,6 +89,7 @@ func (m *Manager) getMenus() []*menu {
 	return menus
 }
 
+// getChildMenus returns the list of menus tagged as children
 func (m *Manager) getChildMenus() []*menu {
 	var menus []*menu
 
@@ -94,6 +102,7 @@ func (m *Manager) getChildMenus() []*menu {
 	return menus
 }
 
+// getMenuItems returns the list of items for the given menuID
 func (m *Manager) getMenuItems(menuID string) []*menuItem {
 	var items []*menuItem
 
