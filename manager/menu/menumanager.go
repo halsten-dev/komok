@@ -170,7 +170,9 @@ func (m *Manager) ConstructMainMenu() *fyne.MainMenu {
 				childMenuItems = append(childMenuItems, childItem.Instance)
 			}
 
-			m.MenusItems[childMenu.ItemID].Instance.ChildMenu = fyne.NewMenu("", childMenuItems...)
+			menuInstance := fyne.NewMenu("", childMenuItems...)
+			m.MenusItems[childMenu.ItemID].Instance.ChildMenu = menuInstance
+			childMenu.Instance = menuInstance
 		}
 	}
 
