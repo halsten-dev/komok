@@ -12,8 +12,8 @@ import (
 type Manager struct {
 	window       fyne.Window
 	scm          *manager.ShortcutsManager
-	Menus        map[string]*menu
-	MenusItems   map[string]*menuItem
+	Menus        map[string]*Menu
+	MenusItems   map[string]*MenuItem
 	OrderCounter *orderCounter
 }
 
@@ -22,8 +22,8 @@ func NewManager(win fyne.Window, scm *manager.ShortcutsManager) *Manager {
 	return &Manager{
 		window:       win,
 		scm:          scm,
-		Menus:        map[string]*menu{},
-		MenusItems:   map[string]*menuItem{},
+		Menus:        map[string]*Menu{},
+		MenusItems:   map[string]*MenuItem{},
 		OrderCounter: newOrderCounter(),
 	}
 }
@@ -68,13 +68,17 @@ func (m *Manager) CreateMenuSeparator(menuID string) {
 }
 
 // GetMenu returns the menu for the given menuID
-func (m *Manager) GetMenu(menuID string) *menu {
+func (m *Manager) GetMenu(menuID string) *Menu {
 	return m.Menus[menuID]
 }
 
+func (m *Manager) GetMenuItem(itemID string) *MenuItem {
+	return m.MenusItems[itemID]
+}
+
 // getMenus returns the list of menus that are not children
-func (m *Manager) getMenus() []*menu {
-	var menus []*menu
+func (m *Manager) getMenus() []*Menu {
+	var menus []*Menu
 
 	for _, menu := range m.Menus {
 		if !menu.IsChild {
@@ -90,8 +94,8 @@ func (m *Manager) getMenus() []*menu {
 }
 
 // getChildMenus returns the list of menus tagged as children
-func (m *Manager) getChildMenus() []*menu {
-	var menus []*menu
+func (m *Manager) getChildMenus() []*Menu {
+	var menus []*Menu
 
 	for _, menu := range m.Menus {
 		if menu.IsChild {
@@ -103,8 +107,8 @@ func (m *Manager) getChildMenus() []*menu {
 }
 
 // getMenuItems returns the list of items for the given menuID
-func (m *Manager) getMenuItems(menuID string) []*menuItem {
-	var items []*menuItem
+func (m *Manager) getMenuItems(menuID string) []*MenuItem {
+	var items []*MenuItem
 
 	for _, item := range m.MenusItems {
 		if item.MenuID == menuID {

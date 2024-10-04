@@ -6,8 +6,8 @@ import (
 )
 
 type orderCounter struct {
-	// menuOrderCounter contains the current order for the main menu bar and menuItemID
-	// "main" key is reserved for the main menu bar menu order counter
+	// menuOrderCounter contains the current order for the main Menu bar and menuItemID
+	// "main" key is reserved for the main Menu bar Menu order counter
 	menuOrderCounter map[string]int
 
 	// menuItemsOrderCounter contains the current order for any given menuID
@@ -45,8 +45,8 @@ func (oc *orderCounter) getNextMenuItemOrder(menuID string) int {
 	return order
 }
 
-// menu defines an individual menu
-type menu struct {
+// Menu defines an individual Menu
+type Menu struct {
 	ID       string
 	Label    string
 	Order    int
@@ -55,9 +55,9 @@ type menu struct {
 	ItemID   string
 }
 
-// newMenu creates a *menu and returns it
-func newMenu(id, label string, order int) *menu {
-	return &menu{
+// newMenu creates a *Menu and returns it
+func newMenu(id, label string, order int) *Menu {
+	return &Menu{
 		ID:      id,
 		Label:   label,
 		Order:   order,
@@ -65,8 +65,8 @@ func newMenu(id, label string, order int) *menu {
 	}
 }
 
-func newChildMenu(id, itemID string, order int) *menu {
-	return &menu{
+func newChildMenu(id, itemID string, order int) *Menu {
+	return &Menu{
 		ID:      id,
 		Order:   order,
 		IsChild: true,
@@ -74,8 +74,8 @@ func newChildMenu(id, itemID string, order int) *menu {
 	}
 }
 
-// menuItem defines an individual menu item
-type menuItem struct {
+// MenuItem defines an individual Menu item
+type MenuItem struct {
 	ID                  string
 	MenuID              string
 	Label               string
@@ -87,10 +87,10 @@ type menuItem struct {
 	IsSeparator         bool
 }
 
-// newMenuItem creates a new menu item and returns it as *menuItem
+// newMenuItem creates a new Menu item and returns it as *MenuItem
 func newMenuItem(id, menuID, label string, shortcut *desktop.CustomShortcut,
-	action func(), activationCondition func() bool, order int) *menuItem {
-	return &menuItem{
+	action func(), activationCondition func() bool, order int) *MenuItem {
+	return &MenuItem{
 		ID:                  id,
 		MenuID:              menuID,
 		Label:               label,
@@ -102,8 +102,8 @@ func newMenuItem(id, menuID, label string, shortcut *desktop.CustomShortcut,
 	}
 }
 
-func newMenuItemSeparator(menuID string, order int) *menuItem {
-	return &menuItem{
+func newMenuItemSeparator(menuID string, order int) *MenuItem {
+	return &MenuItem{
 		MenuID:      menuID,
 		Order:       order,
 		IsSeparator: true,
