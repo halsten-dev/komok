@@ -3,6 +3,7 @@ package komok
 import (
 	"fyne.io/fyne/v2"
 	"github.com/chicogamedev/komok/manager"
+	"github.com/chicogamedev/komok/manager/menu"
 )
 
 var AppEngine *Engine
@@ -10,7 +11,7 @@ var AppEngine *Engine
 type Engine struct {
 	Widgets         map[string]fyne.Widget
 	Systems         map[string]System
-	MenuManager     *manager.MenuManager
+	MenuManager     *menu.Manager
 	ShortcutManager *manager.ShortcutsManager
 	Window          fyne.Window
 }
@@ -25,7 +26,7 @@ func InitAppEngine(window fyne.Window) {
 		Widgets:         make(map[string]fyne.Widget),
 		Systems:         make(map[string]System),
 		ShortcutManager: sm,
-		MenuManager:     manager.NewMenuManager(window, sm),
+		MenuManager:     menu.NewManager(window, sm),
 		Window:          window,
 	}
 }
