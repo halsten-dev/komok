@@ -32,7 +32,7 @@ func (oc *orderCounter) getNextMenuOrder(itemID string) int {
 
 	order := oc.menuOrderCounter[itemID]
 
-	oc.menuItemsOrderCounter[itemID]++
+	oc.menuOrderCounter[itemID]++
 
 	return order
 }
