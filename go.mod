@@ -1,4 +1,4 @@
-module github.com/chicogamedev/komok
+module github.com/halsten-dev/komok
 
 go 1.22.2
 
