@@ -4,7 +4,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/driver/desktop"
 	"fyne.io/fyne/v2/widget"
-	"github.com/chicogamedev/komok/manager"
+	"github.com/halsten-dev/komok/manager"
 	"math"
 	"strconv"
 )

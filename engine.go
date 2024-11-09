@@ -2,8 +2,8 @@ package komok
 
 import (
 	"fyne.io/fyne/v2"
-	"github.com/chicogamedev/komok/manager"
-	"github.com/chicogamedev/komok/manager/menu"
+	"github.com/halsten-dev/komok/manager"
+	"github.com/halsten-dev/komok/manager/menu"
 )
 
 var AppEngine *Engine
