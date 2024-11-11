@@ -16,7 +16,7 @@ type ParametersEditList struct {
 	LstParams     *widget.List
 	Data          *data.ParamListData
 	ItemOnChanged func()
-	OnSave        func(list *ParametersEditList)
+	OnSave        func()
 }
 
 // NewParametersEditList creates a new widget
@@ -92,7 +92,7 @@ func (pel *ParametersEditList) Save() {
 		return
 	}
 
-	pel.OnSave(pel)
+	pel.OnSave()
 }
 
 // Show is overridden from the base widget to only show the form if there is data.
