@@ -23,7 +23,6 @@ var (
 	ShortcutCtrlDown  *desktop.CustomShortcut = createCustomShortcut(fyne.KeyDown, fyne.KeyModifierControl)
 	ShortcutCtrlTab   *desktop.CustomShortcut = createCustomShortcut(fyne.KeyTab, fyne.KeyModifierControl)
 	ShortcutCtrlEnter *desktop.CustomShortcut = createCustomShortcut(fyne.KeyEnter, fyne.KeyModifierControl)
-	ShortcutEnter     *desktop.CustomShortcut = createCustomShortcut(fyne.KeyEnter, 0)
 
 	ShortcutCtrlShiftTab *desktop.CustomShortcut = createCustomShortcut(fyne.KeyTab,
 		fyne.KeyModifierControl|fyne.KeyModifierShift)
@@ -55,15 +54,9 @@ var (
 func createCustomShortcut(key fyne.KeyName, mod fyne.KeyModifier) *desktop.CustomShortcut {
 	var shortcut *desktop.CustomShortcut
 
-	if mod == 0 {
-		shortcut = &desktop.CustomShortcut{
-			KeyName: key,
-		}
-	} else {
-		shortcut = &desktop.CustomShortcut{
-			KeyName:  key,
-			Modifier: mod,
-		}
+	shortcut = &desktop.CustomShortcut{
+		KeyName:  key,
+		Modifier: mod,
 	}
 
 	return shortcut
