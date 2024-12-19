@@ -6,11 +6,13 @@ import (
 
 type CenteredLayout struct {
 	fixedWidth float32
+	padding    float32
 }
 
-func NewCenteredLayout(fixedWidth float32) fyne.Layout {
+func NewCenteredLayout(fixedWidth float32, padding float32) fyne.Layout {
 	return &CenteredLayout{
 		fixedWidth: fixedWidth,
+		padding:    padding,
 	}
 }
 
@@ -32,7 +34,10 @@ func (c *CenteredLayout) Layout(objects []fyne.CanvasObject, containerSize fyne.
 	var pos fyne.Position
 	var height float32
 
-	topLeft := fyne.NewPos(0, 0)
+	topLeft := fyne.NewPos(
+		containerSize.Width/2-c.fixedWidth/2,
+		containerSize.Height/2-c.MinSize(objects).Height/2,
+	)
 
 	for i, child := range objects {
 		if i == 0 {
@@ -42,8 +47,8 @@ func (c *CenteredLayout) Layout(objects []fyne.CanvasObject, containerSize fyne.
 		}
 
 		child.Move(pos)
-		child.Resize(fyne.NewSize(c.fixedWidth, child.Size().Height))
+		child.Resize(fyne.NewSize(c.fixedWidth, child.MinSize().Height))
 
-		height += child.Size().Height
+		height += child.Size().Height + c.padding
 	}
 }
