@@ -23,6 +23,7 @@ var (
 	ShortcutCtrlDown  *desktop.CustomShortcut = createCustomShortcut(fyne.KeyDown, fyne.KeyModifierControl)
 	ShortcutCtrlTab   *desktop.CustomShortcut = createCustomShortcut(fyne.KeyTab, fyne.KeyModifierControl)
 	ShortcutCtrlEnter *desktop.CustomShortcut = createCustomShortcut(fyne.KeyEnter, fyne.KeyModifierControl)
+	ShortcutEnter     *desktop.CustomShortcut = createCustomShortcut(fyne.KeyEnter, 0)
 
 	ShortcutCtrlShiftTab *desktop.CustomShortcut = createCustomShortcut(fyne.KeyTab,
 		fyne.KeyModifierControl|fyne.KeyModifierShift)
