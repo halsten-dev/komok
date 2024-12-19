@@ -25,17 +25,17 @@ type ContentManager struct {
 	window fyne.Window
 }
 
-var Manager *ContentManager
-
-func Init(app fyne.App, window fyne.Window) {
-	Manager = &ContentManager{
+func NewContentManager(app fyne.App, window fyne.Window) *ContentManager {
+	manager := &ContentManager{
 		history:  make([]ContentCode, 0),
 		Contents: make([]IContent, 0),
 		app:      app,
 		window:   window,
 	}
 
-	Manager.window.SetContent(container.NewWithoutLayout())
+	manager.window.SetContent(container.NewWithoutLayout())
+
+	return manager
 }
 
 func (cm *ContentManager) RegisterContent(content IContent) {
