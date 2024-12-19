@@ -53,8 +53,18 @@ var (
 
 // createCustomShortcut creates and return a pointer to a new custom shortcut
 func createCustomShortcut(key fyne.KeyName, mod fyne.KeyModifier) *desktop.CustomShortcut {
-	return &desktop.CustomShortcut{
-		KeyName:  key,
-		Modifier: mod,
+	var shortcut *desktop.CustomShortcut
+
+	if mod == 0 {
+		shortcut = &desktop.CustomShortcut{
+			KeyName: key,
+		}
+	} else {
+		shortcut = &desktop.CustomShortcut{
+			KeyName:  key,
+			Modifier: mod,
+		}
 	}
+
+	return shortcut
 }
