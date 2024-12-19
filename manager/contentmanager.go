@@ -6,15 +6,17 @@ import (
 	"log"
 )
 
+type ContentCode string
+
 type IContent interface {
-	GetCode() string
+	GetCode() ContentCode
 	GetGUI() fyne.CanvasObject
 	Init()
 	Destroy()
 }
 
 type ContentManager struct {
-	history  []string
+	history  []ContentCode
 	Contents []IContent
 
 	CurrentContent IContent
@@ -27,7 +29,7 @@ var Manager *ContentManager
 
 func Init(app fyne.App, window fyne.Window) {
 	Manager = &ContentManager{
-		history:  []string{},
+		history:  make([]ContentCode, 0),
 		Contents: make([]IContent, 0),
 		app:      app,
 		window:   window,
@@ -42,7 +44,7 @@ func (cm *ContentManager) RegisterContent(content IContent) {
 	log.Printf("ContentManager : Content %s registred successfully", content.GetCode())
 }
 
-func (cm *ContentManager) ChangeContent(newCode string) {
+func (cm *ContentManager) ChangeContent(newCode ContentCode) {
 	newContent := cm.getContent(newCode)
 
 	if newContent == nil {
@@ -67,7 +69,7 @@ func (cm *ContentManager) addCurrentContentToHistory() {
 	log.Printf("ContentManager : Current content %s added to history", cm.CurrentContent.GetCode())
 }
 
-func (cm *ContentManager) getContent(code string) IContent {
+func (cm *ContentManager) getContent(code ContentCode) IContent {
 	for i, content := range cm.Contents {
 		if content.GetCode() == code {
 			return cm.Contents[i]
