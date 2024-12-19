@@ -52,7 +52,9 @@ func (cm *ContentManager) ChangeContent(newCode ContentCode) {
 		return
 	}
 
-	cm.CurrentContent.Destroy()
+	if cm.CurrentContent != nil {
+		cm.CurrentContent.Destroy()
+	}
 	cm.addCurrentContentToHistory()
 
 	cm.window.SetContent(container.NewWithoutLayout())
