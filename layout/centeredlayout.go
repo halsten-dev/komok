@@ -23,6 +23,8 @@ func (c *CenteredLayout) MinSize(objects []fyne.CanvasObject) fyne.Size {
 		height += child.MinSize().Height
 	}
 
+	minSize.Height = height
+
 	return minSize
 }
 
