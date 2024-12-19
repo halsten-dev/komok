@@ -10,8 +10,17 @@ type ContentCode string
 
 type IContent interface {
 	GetCode() ContentCode
+
+	// GetGUI returns the content to add to the window's content.
 	GetGUI() fyne.CanvasObject
+
+	// InitGUI is called after the GUI was added to the window's content.
+	InitGUI()
+
+	// Init is used to initialize all GUI elements.
 	Init()
+
+	// Destroy is used to destroyed the GUI elements.
 	Destroy()
 }
 
@@ -63,6 +72,7 @@ func (cm *ContentManager) ChangeContent(newCode ContentCode) {
 	cm.CurrentContent.Init()
 
 	cm.window.SetContent(cm.CurrentContent.GetGUI())
+	cm.CurrentContent.InitGUI()
 }
 
 func (cm *ContentManager) addCurrentContentToHistory() {
