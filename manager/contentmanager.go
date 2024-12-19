@@ -56,13 +56,13 @@ func (cm *ContentManager) ChangeContent(newCode ContentCode) {
 		cm.CurrentContent.Destroy()
 		cm.addCurrentContentToHistory()
 	}
-	
+
 	cm.window.SetContent(container.NewWithoutLayout())
 	cm.CurrentContent = newContent
 
 	cm.CurrentContent.Init()
 
-	cm.window.SetContent(container.NewStack(cm.CurrentContent.GetGUI()))
+	cm.window.SetContent(cm.CurrentContent.GetGUI())
 }
 
 func (cm *ContentManager) addCurrentContentToHistory() {

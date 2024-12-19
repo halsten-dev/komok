@@ -32,10 +32,7 @@ func (c *CenteredLayout) Layout(objects []fyne.CanvasObject, containerSize fyne.
 	var pos fyne.Position
 	var height float32
 
-	topLeft := fyne.NewPos(
-		containerSize.Width/2-c.fixedWidth/2,
-		containerSize.Height/2-c.MinSize(objects).Height/2,
-	)
+	topLeft := fyne.NewPos(0, 0)
 
 	for i, child := range objects {
 		if i == 0 {
