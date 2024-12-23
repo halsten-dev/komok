@@ -5,8 +5,8 @@ import (
 )
 
 type ToolbarObject struct {
-	object fyne.CanvasObject
-	width  float32
+	Object fyne.CanvasObject
+	Width  float32
 }
 
 type ToolbarLayout struct {
@@ -31,15 +31,15 @@ func NewToolbarLayout(leftObjects,
 	var objects []fyne.CanvasObject
 
 	for _, object := range t.leftObjects {
-		objects = append(objects, object.object)
+		objects = append(objects, object.Object)
 	}
 
 	for _, object := range t.centerObjects {
-		objects = append(objects, object.object)
+		objects = append(objects, object.Object)
 	}
 
 	for _, object := range t.rightObjects {
-		objects = append(objects, object.object)
+		objects = append(objects, object.Object)
 	}
 
 	c := &fyne.Container{Layout: t, Objects: objects}
@@ -53,15 +53,15 @@ func (t *ToolbarLayout) MinSize(objects []fyne.CanvasObject) fyne.Size {
 	paddingTotal := (float32(len(objects)) - 1) * t.padding
 
 	for _, object := range t.leftObjects {
-		minSize.Width += object.width
+		minSize.Width += object.Width
 	}
 
 	for _, object := range t.centerObjects {
-		minSize.Width += object.width
+		minSize.Width += object.Width
 	}
 
 	for _, object := range t.rightObjects {
-		minSize.Width += object.width
+		minSize.Width += object.Width
 	}
 
 	minSize.Width += paddingTotal
@@ -84,27 +84,27 @@ func (t *ToolbarLayout) Layout(objects []fyne.CanvasObject, containerSize fyne.S
 	posX = 0
 
 	for _, object := range t.leftObjects {
-		object.object.Move(fyne.NewPos(posX, 0))
-		object.object.Resize(fyne.NewSize(object.width, t.height))
-		posX += object.width + t.padding
+		object.Object.Move(fyne.NewPos(posX, 0))
+		object.Object.Resize(fyne.NewSize(object.Width, t.height))
+		posX += object.Width + t.padding
 	}
 
 	// Center objects position
 	posX = centerBlocX
 
 	for _, object := range t.centerObjects {
-		object.object.Move(fyne.NewPos(posX, 0))
-		object.object.Resize(fyne.NewSize(object.width, t.height))
-		posX += object.width + t.padding
+		object.Object.Move(fyne.NewPos(posX, 0))
+		object.Object.Resize(fyne.NewSize(object.Width, t.height))
+		posX += object.Width + t.padding
 	}
 
 	// Right objects position
 	posX = rightBlocX
 
 	for _, object := range t.rightObjects {
-		object.object.Move(fyne.NewPos(posX, 0))
-		object.object.Resize(fyne.NewSize(object.width, t.height))
-		posX += object.width + t.padding
+		object.Object.Move(fyne.NewPos(posX, 0))
+		object.Object.Resize(fyne.NewSize(object.Width, t.height))
+		posX += object.Width + t.padding
 	}
 
 }
@@ -113,7 +113,7 @@ func (t *ToolbarLayout) getBlocWidth(objects []ToolbarObject) float32 {
 	var blocWidth float32
 
 	for _, object := range objects {
-		blocWidth += object.width
+		blocWidth += object.Width
 	}
 
 	blocWidth += float32(len(objects)-1) * t.padding
