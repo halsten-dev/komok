@@ -40,9 +40,9 @@ func NewNavbarLayout(
 		objects = append(objects, object)
 	}
 
-	separator := canvas.NewLine(colornames.Black)
+	t.separator = canvas.NewLine(colornames.Black)
 
-	objects = append(objects, separator)
+	objects = append(objects, t.separator)
 
 	c := &fyne.Container{Layout: t, Objects: objects}
 
