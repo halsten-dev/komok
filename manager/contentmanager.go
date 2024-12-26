@@ -3,7 +3,6 @@ package manager
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
-	"fyne.io/fyne/v2/widget"
 	"log"
 )
 
@@ -32,7 +31,7 @@ type ContentManager struct {
 	CurrentContent     IContent
 	CurrentContentCode ContentCode
 
-	Toolbar *widget.Toolbar
+	Navbar *fyne.Container
 
 	app    fyne.App
 	window fyne.Window
@@ -44,7 +43,7 @@ func NewContentManager(app fyne.App, window fyne.Window) *ContentManager {
 		Contents: make([]IContent, 0),
 		app:      app,
 		window:   window,
-		Toolbar:  nil,
+		Navbar:   nil,
 	}
 
 	manager.window.SetContent(container.NewWithoutLayout())
@@ -77,7 +76,11 @@ func (cm *ContentManager) ChangeContent(newCode ContentCode) {
 
 	cm.CurrentContent.Init()
 
-	cm.window.SetContent(container.NewBorder(cm.Toolbar, nil, nil, nil, cm.CurrentContent.GetGUI()))
+	if cm.Navbar != nil {
+		cm.window.SetContent(cm.CurrentContent.GetGUI())
+	} else {
+		cm.window.SetContent(container.NewHSplit(cm.Navbar, cm.CurrentContent.GetGUI()))
+	}
 
 	cm.CurrentContent.InitGUI()
 }
