@@ -3,6 +3,7 @@ package manager
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/widget"
 	"log"
 )
 
@@ -20,7 +21,7 @@ type IContent interface {
 	// Init is used to initialize all GUI elements.
 	Init()
 
-	// Destroy is used to destroyed the GUI elements.
+	// Destroy is used to destroy the GUI elements.
 	Destroy()
 }
 
@@ -29,6 +30,8 @@ type ContentManager struct {
 	Contents []IContent
 
 	CurrentContent IContent
+
+	Toolbar *widget.Toolbar
 
 	app    fyne.App
 	window fyne.Window
@@ -40,6 +43,7 @@ func NewContentManager(app fyne.App, window fyne.Window) *ContentManager {
 		Contents: make([]IContent, 0),
 		app:      app,
 		window:   window,
+		Toolbar:  nil,
 	}
 
 	manager.window.SetContent(container.NewWithoutLayout())
@@ -71,7 +75,8 @@ func (cm *ContentManager) ChangeContent(newCode ContentCode) {
 
 	cm.CurrentContent.Init()
 
-	cm.window.SetContent(cm.CurrentContent.GetGUI())
+	cm.window.SetContent(container.NewBorder(cm.Toolbar, nil, nil, nil, cm.CurrentContent.GetGUI()))
+
 	cm.CurrentContent.InitGUI()
 }
 
