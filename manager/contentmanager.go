@@ -29,7 +29,8 @@ type ContentManager struct {
 	history  []ContentCode
 	Contents []IContent
 
-	CurrentContent IContent
+	CurrentContent     IContent
+	CurrentContentCode ContentCode
 
 	Toolbar *widget.Toolbar
 
@@ -72,6 +73,7 @@ func (cm *ContentManager) ChangeContent(newCode ContentCode) {
 
 	cm.window.SetContent(container.NewWithoutLayout())
 	cm.CurrentContent = newContent
+	cm.CurrentContentCode = newCode
 
 	cm.CurrentContent.Init()
 
