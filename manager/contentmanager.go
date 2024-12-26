@@ -3,6 +3,7 @@ package manager
 import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
+	"github.com/halsten-dev/komok/layout"
 	"log"
 )
 
@@ -31,7 +32,8 @@ type ContentManager struct {
 	CurrentContent     IContent
 	CurrentContentCode ContentCode
 
-	Navbar *fyne.Container
+	navbar      *fyne.Container
+	navbarWidth float32
 
 	app    fyne.App
 	window fyne.Window
@@ -43,12 +45,17 @@ func NewContentManager(app fyne.App, window fyne.Window) *ContentManager {
 		Contents: make([]IContent, 0),
 		app:      app,
 		window:   window,
-		Navbar:   nil,
+		navbar:   nil,
 	}
 
 	manager.window.SetContent(container.NewWithoutLayout())
 
 	return manager
+}
+
+func (cm *ContentManager) SetNavbar(navbar *fyne.Container, width float32) {
+	cm.navbar = navbar
+	cm.navbarWidth = width
 }
 
 func (cm *ContentManager) RegisterContent(content IContent) {
@@ -76,12 +83,12 @@ func (cm *ContentManager) ChangeContent(newCode ContentCode) {
 
 	cm.CurrentContent.Init()
 
-	if cm.Navbar == nil {
+	if cm.navbar == nil {
 		cm.window.SetContent(cm.CurrentContent.GetGUI())
 	} else {
-		split := container.NewHSplit(cm.Navbar, cm.CurrentContent.GetGUI())
-		split.SetOffset(0.35)
-		cm.window.SetContent(split)
+		navbar := container.New(layout.NewFixedAutoSizeLayout(cm.navbarWidth, false), cm.navbar,
+			cm.CurrentContent.GetGUI())
+		cm.window.SetContent(navbar)
 	}
 
 	cm.CurrentContent.InitGUI()
