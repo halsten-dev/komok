@@ -2,6 +2,8 @@ package layout
 
 import (
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
+	"golang.org/x/image/colornames"
 )
 
 type NavbarLayout struct {
@@ -10,6 +12,7 @@ type NavbarLayout struct {
 	bottomObjects []fyne.CanvasObject
 	padding       float32
 	horizontal    bool
+	separator     *canvas.Line
 }
 
 func NewNavbarLayout(
@@ -36,6 +39,10 @@ func NewNavbarLayout(
 	for _, object := range t.bottomObjects {
 		objects = append(objects, object)
 	}
+
+	separator := canvas.NewLine(colornames.Black)
+
+	objects = append(objects, separator)
 
 	c := &fyne.Container{Layout: t, Objects: objects}
 
@@ -97,6 +104,9 @@ func (t *NavbarLayout) Layout(objects []fyne.CanvasObject, containerSize fyne.Si
 		object.Resize(fyne.NewSize(objectWidth, object.MinSize().Height))
 		posY += object.MinSize().Height + t.padding
 	}
+
+	t.separator.Position1 = fyne.NewPos(containerSize.Width-1, 0)
+	t.separator.Position2 = fyne.NewPos(containerSize.Width, containerSize.Height)
 }
 
 func (t *NavbarLayout) getBlocHeight(objects []fyne.CanvasObject) float32 {
