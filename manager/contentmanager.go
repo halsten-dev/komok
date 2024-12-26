@@ -86,7 +86,7 @@ func (cm *ContentManager) ChangeContent(newCode ContentCode) {
 	if cm.navbar == nil {
 		cm.window.SetContent(cm.CurrentContent.GetGUI())
 	} else {
-		navbar := container.New(layout.NewFixedAutoSizeLayout(cm.navbarWidth, false), cm.navbar,
+		navbar := container.New(layout.NewFixedAutoSizeLayout(cm.navbarWidth, true), cm.navbar,
 			cm.CurrentContent.GetGUI())
 		cm.window.SetContent(navbar)
 	}
