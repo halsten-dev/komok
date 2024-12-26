@@ -79,7 +79,9 @@ func (cm *ContentManager) ChangeContent(newCode ContentCode) {
 	if cm.Navbar == nil {
 		cm.window.SetContent(cm.CurrentContent.GetGUI())
 	} else {
-		cm.window.SetContent(container.NewHSplit(cm.Navbar, cm.CurrentContent.GetGUI()))
+		split := container.NewHSplit(cm.Navbar, cm.CurrentContent.GetGUI())
+		split.SetOffset(0.35)
+		cm.window.SetContent(split)
 	}
 
 	cm.CurrentContent.InitGUI()

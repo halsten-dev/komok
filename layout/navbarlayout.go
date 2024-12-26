@@ -61,6 +61,9 @@ func (t *NavbarLayout) Layout(objects []fyne.CanvasObject, containerSize fyne.Si
 	var posY float32
 	var centerBlocY, centerBlocHeight float32
 	var bottomBlocY, bottomBlocHeight float32
+	var objectWidth float32
+
+	objectWidth = containerSize.Width - 5
 
 	centerBlocHeight = t.getBlocHeight(t.centerObjects)
 	bottomBlocHeight = t.getBlocHeight(t.bottomObjects)
@@ -73,7 +76,7 @@ func (t *NavbarLayout) Layout(objects []fyne.CanvasObject, containerSize fyne.Si
 
 	for _, object := range t.topObjects {
 		object.Move(fyne.NewPos(0, posY))
-		object.Resize(fyne.NewSize(containerSize.Width, object.MinSize().Height))
+		object.Resize(fyne.NewSize(objectWidth, object.MinSize().Height))
 		posY += object.MinSize().Height + t.padding
 	}
 
@@ -82,7 +85,7 @@ func (t *NavbarLayout) Layout(objects []fyne.CanvasObject, containerSize fyne.Si
 
 	for _, object := range t.centerObjects {
 		object.Move(fyne.NewPos(0, posY))
-		object.Resize(fyne.NewSize(containerSize.Width, object.MinSize().Height))
+		object.Resize(fyne.NewSize(objectWidth, object.MinSize().Height))
 		posY += object.MinSize().Height + t.padding
 	}
 
@@ -91,7 +94,7 @@ func (t *NavbarLayout) Layout(objects []fyne.CanvasObject, containerSize fyne.Si
 
 	for _, object := range t.bottomObjects {
 		object.Move(fyne.NewPos(0, posY))
-		object.Resize(fyne.NewSize(containerSize.Width, object.MinSize().Height))
+		object.Resize(fyne.NewSize(objectWidth, object.MinSize().Height))
 		posY += object.MinSize().Height + t.padding
 	}
 }
