@@ -2,6 +2,7 @@ package widget
 
 import (
 	"fyne.io/fyne/v2/widget"
+	"sort"
 )
 
 type SelectData[T any] struct {
@@ -52,6 +53,8 @@ func (s *SelectData[T]) generateOptions() []string {
 	for key := range s.data {
 		options = append(options, key)
 	}
+
+	sort.Strings(options)
 
 	return options
 }
