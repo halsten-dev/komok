@@ -39,6 +39,12 @@ func (fas *FixedAutoSize) MinSize(objects []fyne.CanvasObject) fyne.Size {
 		minSize = minSize.Max(child.MinSize())
 	}
 
+	if fas.horizontal {
+		minSize.Width += fas.fixedSize
+	} else {
+		minSize.Height += fas.fixedSize
+	}
+
 	return minSize
 }
 
