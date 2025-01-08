@@ -49,20 +49,21 @@ func (e *Entry) SetSelectAllOnFocus(b bool) {
 
 func NewEntry(sm *manager.ShortcutsManager) *Entry {
 	e := &Entry{}
-	e.Entry = *widget.NewEntry()
+	e.ExtendBaseWidget(e)
+
 	e.shortcutsManager = sm
 	e.Wrapping = fyne.TextWrap(fyne.TextTruncateClip)
 	e.onlyNumerical = false
 	e.round = false
 	e.tabManagement = false
 
-	e.ExtendBaseWidget(e)
 	return e
 }
 
 func NewMultilineEntry(sm *manager.ShortcutsManager, tm bool, wrap bool) *Entry {
 	e := &Entry{}
-	e.Entry = *widget.NewEntry()
+	e.ExtendBaseWidget(e)
+
 	e.shortcutsManager = sm
 	e.MultiLine = true
 	e.tabManagement = tm
@@ -75,7 +76,6 @@ func NewMultilineEntry(sm *manager.ShortcutsManager, tm bool, wrap bool) *Entry 
 		e.Wrapping = fyne.TextWrap(fyne.TextTruncateClip)
 	}
 
-	e.ExtendBaseWidget(e)
 	return e
 }
 
@@ -83,7 +83,7 @@ func NewNumericalEntry(sm *manager.ShortcutsManager, round bool) *Entry {
 	var numericalValue float64
 
 	e := &Entry{}
-	e.Entry = *widget.NewEntry()
+	e.ExtendBaseWidget(e)
 	e.shortcutsManager = sm
 	e.MultiLine = false
 	e.tabManagement = false
@@ -106,6 +106,5 @@ func NewNumericalEntry(sm *manager.ShortcutsManager, round bool) *Entry {
 		return nil
 	}
 
-	e.ExtendBaseWidget(e)
 	return e
 }
