@@ -11,11 +11,14 @@ import (
 
 type Entry struct {
 	widget.Entry
-	tabManagement    bool
-	selectAllOnFocus bool
-	shortcutsManager *manager.ShortcutsManager
-	onlyNumerical    bool
-	round            bool
+	TabManagement    bool
+	SelectAllOnFocus bool
+	ShortcutsManager *manager.ShortcutsManager
+	OnlyNumerical    bool
+	Round            bool
+
+	// OnTypedKey is called before the TypedKey event. Returns true if it was processed.
+	OnTypedKey func(e *fyne.KeyEvent) bool
 }
 
 func (e *Entry) TypedShortcut(s fyne.Shortcut) {
@@ -24,17 +27,29 @@ func (e *Entry) TypedShortcut(s fyne.Shortcut) {
 		return
 	}
 
-	e.shortcutsManager.TriggerShortcut(s)
+	e.ShortcutsManager.TriggerShortcut(s)
 }
 
 func (e *Entry) AcceptsTab() bool {
-	return e.MultiLine && e.tabManagement
+	return e.MultiLine && e.TabManagement
 }
 
 func (e *Entry) FocusGained() {
 	e.Entry.FocusGained()
-	if e.selectAllOnFocus {
+	if e.SelectAllOnFocus {
 		e.SelectAll()
+	}
+}
+
+func (e *Entry) TypedKey(key *fyne.KeyEvent) {
+	processed := false
+
+	if e.OnTypedKey != nil {
+		processed = e.OnTypedKey(key)
+	}
+
+	if !processed {
+		e.Entry.TypedKey(key)
 	}
 }
 
@@ -44,18 +59,18 @@ func (e *Entry) SelectAll() {
 }
 
 func (e *Entry) SetSelectAllOnFocus(b bool) {
-	e.selectAllOnFocus = b
+	e.SelectAllOnFocus = b
 }
 
 func NewEntry(sm *manager.ShortcutsManager) *Entry {
 	e := &Entry{}
 	e.ExtendBaseWidget(e)
 
-	e.shortcutsManager = sm
+	e.ShortcutsManager = sm
 	e.Wrapping = fyne.TextWrap(fyne.TextTruncateClip)
-	e.onlyNumerical = false
-	e.round = false
-	e.tabManagement = false
+	e.OnlyNumerical = false
+	e.Round = false
+	e.TabManagement = false
 
 	return e
 }
@@ -64,11 +79,11 @@ func NewMultilineEntry(sm *manager.ShortcutsManager, tm bool, wrap bool) *Entry 
 	e := &Entry{}
 	e.ExtendBaseWidget(e)
 
-	e.shortcutsManager = sm
+	e.ShortcutsManager = sm
 	e.MultiLine = true
-	e.tabManagement = tm
-	e.onlyNumerical = false
-	e.round = false
+	e.TabManagement = tm
+	e.OnlyNumerical = false
+	e.Round = false
 
 	if wrap {
 		e.Wrapping = fyne.TextWrapWord
@@ -84,18 +99,18 @@ func NewNumericalEntry(sm *manager.ShortcutsManager, round bool) *Entry {
 
 	e := &Entry{}
 	e.ExtendBaseWidget(e)
-	e.shortcutsManager = sm
+	e.ShortcutsManager = sm
 	e.MultiLine = false
-	e.tabManagement = false
-	e.onlyNumerical = true
-	e.round = round
+	e.TabManagement = false
+	e.OnlyNumerical = true
+	e.Round = round
 
 	e.Validator = func(s string) error {
 		if len(s) > 0 {
-			if e.onlyNumerical {
+			if e.OnlyNumerical {
 				numericalValue, _ = strconv.ParseFloat(e.Text, 64)
 
-				if e.round {
+				if e.Round {
 					e.Text = strconv.Itoa(int(math.Round(numericalValue)))
 				} else {
 					e.Text = strconv.FormatFloat(numericalValue, 'f', -1, 64)
