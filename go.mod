@@ -1,6 +1,6 @@
 module github.com/halsten-dev/komok
 
-go 1.23.1
+go 1.22.8
 
 require fyne.io/fyne/v2 v2.5.2
 
