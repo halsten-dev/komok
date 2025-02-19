@@ -31,6 +31,8 @@ var (
 		fyne.KeyModifierControl|fyne.KeyModifierShift)
 	ShortcutCtrlShiftN *desktop.CustomShortcut = createCustomShortcut(fyne.KeyN,
 		fyne.KeyModifierControl|fyne.KeyModifierShift)
+	ShortcutCtrlShiftC *desktop.CustomShortcut = createCustomShortcut(fyne.KeyC,
+		fyne.KeyModifierControl|fyne.KeyModifierShift)
 	ShortcutCtrlShiftI *desktop.CustomShortcut = createCustomShortcut(fyne.KeyI,
 		fyne.KeyModifierControl|fyne.KeyModifierShift)
 	ShortcutCtrlShiftW *desktop.CustomShortcut = createCustomShortcut(fyne.KeyW,
