@@ -207,6 +207,12 @@ func (se *SearchEntry[T]) SetSearchResult(searchResult []string) {
 	se.searchResult = searchResult
 }
 
+func (se *SearchEntry[T]) GetSelectedData() T {
+	data, _ := se.data[se.selectedKey]
+
+	return data
+}
+
 type searchList[T any] struct {
 	widget.List
 
