@@ -36,6 +36,9 @@ type SearchEntry[T any] struct {
 	// OnSearch must be defined and should give the SearchEntry widget a new set of results by using SetSearchResult.
 	OnSearch func(s string)
 
+	// OnChangedCustom allows to set custom behaviour in the OnChanged event.
+	OnChangedCustom func(s string)
+
 	// GetDataValue must be defined to return a calculated string value of the given key.
 	GetDataValue func(key string) string
 
@@ -85,6 +88,10 @@ func NewSearchEntry[T any](sm *kManager.ShortcutsManager, ig SearchEntryItemGene
 	s.LstSearch = newSearchList[T](s)
 
 	s.OnChanged = func(str string) {
+		if s.OnChangedCustom != nil {
+			s.OnChangedCustom(str)
+		}
+
 		if s.OnSearch != nil {
 			s.OnSearch(str)
 		}
