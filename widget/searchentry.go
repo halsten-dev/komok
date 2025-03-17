@@ -39,6 +39,9 @@ type SearchEntry[T any] struct {
 	// OnChangedCustom allows to set custom behaviour in the OnChanged event.
 	OnChangedCustom func(s string)
 
+	// OnSelectedKeyCustom allows to set custom behaviour when a key is selected.
+	OnSelectedKeyCustom func(s string)
+
 	// GetDataValue must be defined to return a calculated string value of the given key.
 	GetDataValue func(key string) string
 
@@ -196,6 +199,10 @@ func (se *SearchEntry[T]) SetSelectedKey(key string) {
 	se.Entry.SelectAll()
 	se.Entry.Refresh()
 	se.HideSearchResults()
+
+	if se.OnSelectedKeyCustom != nil {
+		se.OnSelectedKeyCustom(se.selectedKey)
+	}
 }
 
 func (se *SearchEntry[T]) SetData(data map[string]T) {
