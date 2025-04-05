@@ -47,6 +47,7 @@ func (f *FixedMinSizeRenderer) Objects() []fyne.CanvasObject {
 }
 
 func (f *FixedMinSizeRenderer) Refresh() {
+	f.Object.Refresh()
 }
 
 func (f *FixedMinSizeRenderer) Destroy() {
