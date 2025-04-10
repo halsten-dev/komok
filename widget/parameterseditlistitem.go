@@ -33,7 +33,7 @@ func NewParametersEditListItem(sm *kManager.ShortcutsManager) *ParametersEditLis
 
 // CreateRenderer return the way the widget should be rendered
 func (peli *ParametersEditListItem) CreateRenderer() fyne.WidgetRenderer {
-	c := container.NewVBox(peli.LblParam, peli.EntryParam)
+	c := container.NewVBox(peli.LblParam, peli.EntryParam, peli.CbParam)
 
 	return widget.NewSimpleRenderer(c)
 }
