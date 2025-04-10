@@ -63,6 +63,15 @@ func NewParametersEditList(sm *kManager.ShortcutsManager) *ParametersEditList {
 
 				item.ItemOnChanged()
 			}
+
+			rowItem.CbParam.OnChanged = func(checked bool) {
+				switch item.Data.Params[id].Type {
+				case reflect.Bool:
+					item.Data.Params[id].Value = checked
+				}
+
+				item.ItemOnChanged()
+			}
 		})
 
 	item.ExtendBaseWidget(item)
