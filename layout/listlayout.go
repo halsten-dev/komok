@@ -34,7 +34,7 @@ func (l *ListLayout) MinSize(objects []fyne.CanvasObject) fyne.Size {
 		visibleItemCount = list.Length()
 	}
 
-	minSize.Height = itemHeight*float32(l.visibleItemCount) + (theme.Padding() * float32(visibleItemCount))
+	minSize.Height = itemHeight*float32(visibleItemCount) + (theme.Padding() * float32(visibleItemCount))
 	minSize.Width = list.MinSize().Width
 
 	return minSize
