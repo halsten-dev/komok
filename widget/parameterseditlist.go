@@ -55,7 +55,7 @@ func NewParametersEditList(sm *kManager.ShortcutsManager) *ParametersEditList {
 					item.Data.Params[id].Value, _ = strconv.Atoi(s)
 				case reflect.Float64:
 					item.Data.Params[id].Value, _ = strconv.ParseFloat(s, 64)
-				case reflect.Uint, reflect.Uint8:
+				case reflect.Uint, reflect.Uint8, reflect.Uint64:
 					item.Data.Params[id].Value, _ = strconv.ParseUint(s, 10, 64)
 				default:
 					item.Data.Params[id].Value = nil
