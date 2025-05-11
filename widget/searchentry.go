@@ -195,7 +195,7 @@ func (se *SearchEntry[T]) SetSelectedKey(key string) {
 	}
 
 	se.selectedKey = key
-	se.Entry.SetText(value)
+	se.Entry.Text = value
 	se.Entry.SelectAll()
 	se.Entry.Refresh()
 	se.HideSearchResults()
