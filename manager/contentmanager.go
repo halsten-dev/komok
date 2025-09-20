@@ -1,10 +1,11 @@
 package manager
 
 import (
+	"log"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"github.com/halsten-dev/komok/layout"
-	"log"
 )
 
 type ContentCode string
@@ -65,7 +66,7 @@ func (cm *ContentManager) RegisterContent(content IContent) {
 }
 
 func (cm *ContentManager) ChangeContent(newCode ContentCode) {
-	newContent := cm.getContent(newCode)
+	newContent := cm.GetContent(newCode)
 
 	if newContent == nil {
 		log.Printf("ContentManager : Content %s not found", newCode)
@@ -100,7 +101,7 @@ func (cm *ContentManager) addCurrentContentToHistory() {
 	log.Printf("ContentManager : Current content %s added to history", cm.CurrentContent.GetCode())
 }
 
-func (cm *ContentManager) getContent(code ContentCode) IContent {
+func (cm *ContentManager) GetContent(code ContentCode) IContent {
 	for i, content := range cm.Contents {
 		if content.GetCode() == code {
 			return cm.Contents[i]
