@@ -18,12 +18,19 @@ type Param struct {
 	Type  reflect.Kind
 }
 
+type ParamString struct {
+	Label string
+	Value string
+}
+
 // ParamListData represents the list of single params and hold the struct definition of the params
 type ParamListData struct {
 	Owner  ParamListOwner
 	Struct interface{}
 	Params []Param
 }
+
+type ParamStringListData []*ParamString
 
 func NewParamListData(owner ParamListOwner, paramStruct interface{}) (*ParamListData, error) {
 	pld := &ParamListData{}
