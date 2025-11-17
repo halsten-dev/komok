@@ -186,6 +186,8 @@ func (se *SearchEntry[T]) SetSelectedKey(key string) {
 
 	if key == "" {
 		value = ""
+		se.Entry.Entry.CursorColumn = 0
+		se.Entry.Entry.CursorRow = 0
 	} else {
 		value = se.GetDataValue(key)
 
