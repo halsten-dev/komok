@@ -185,21 +185,21 @@ func (se *SearchEntry[T]) SetSelectedKey(key string) {
 	var value string
 
 	if key == "" {
-		value = ""
-		se.Entry.Entry.CursorColumn = 0
-		se.Entry.Entry.CursorRow = 0
+		se.Entry.SetText("")
+		se.selectedKey = ""
 	} else {
 		value = se.GetDataValue(key)
 
 		if value == "" {
 			value = key
 		}
+
+		se.selectedKey = key
+		se.Entry.Text = value
+		se.Entry.SelectAll()
+		se.Entry.Refresh()
 	}
 
-	se.selectedKey = key
-	se.Entry.Text = value
-	se.Entry.SelectAll()
-	se.Entry.Refresh()
 	se.HideSearchResults()
 
 	if se.OnSelectedKeyCustom != nil {
