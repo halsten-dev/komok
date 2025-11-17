@@ -1,12 +1,13 @@
 package widget
 
 import (
+	"math"
+	"strconv"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/driver/desktop"
 	"fyne.io/fyne/v2/widget"
 	"github.com/halsten-dev/komok/manager"
-	"math"
-	"strconv"
 )
 
 type Entry struct {
@@ -55,7 +56,9 @@ func (e *Entry) TypedKey(key *fyne.KeyEvent) {
 
 // SelectAll selects all the text in the entry.
 func (e *Entry) SelectAll() {
-	e.TypedShortcut(&fyne.ShortcutSelectAll{})
+	if len(e.Text) > 0 {
+		e.TypedShortcut(&fyne.ShortcutSelectAll{})
+	}
 }
 
 func (e *Entry) SetSelectAllOnFocus(b bool) {
