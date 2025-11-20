@@ -187,8 +187,7 @@ func (se *SearchEntry[T]) SetSelectedKey(key string) {
 	if key == "" {
 		se.selectedKey = ""
 		se.Entry.Text = ""
-		se.Entry.SelectAll()
-		se.Entry.Refresh()
+		se.Entry.TypedKey(&fyne.KeyEvent{Name: fyne.KeyLeft}) // workaround to remove the selection
 	} else {
 		value = se.GetDataValue(key)
 
@@ -198,10 +197,9 @@ func (se *SearchEntry[T]) SetSelectedKey(key string) {
 
 		se.selectedKey = key
 		se.Entry.Text = value
-		se.Entry.SelectAll()
-		se.Entry.Refresh()
 	}
 
+	se.Refresh()
 	se.HideSearchResults()
 
 	if se.OnSelectedKeyCustom != nil {
