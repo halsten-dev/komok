@@ -185,8 +185,10 @@ func (se *SearchEntry[T]) SetSelectedKey(key string) {
 	var value string
 
 	if key == "" {
-		se.Entry.SetText("")
 		se.selectedKey = ""
+		se.Entry.Text = ""
+		se.Entry.SelectAll()
+		se.Entry.Refresh()
 	} else {
 		value = se.GetDataValue(key)
 
