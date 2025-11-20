@@ -187,8 +187,11 @@ func (se *SearchEntry[T]) SetSelectedKey(key string) {
 	if key == "" {
 		se.selectedKey = ""
 		se.Entry.Text = ""
-		se.Entry.Refresh()
-		se.Entry.TypedKey(&fyne.KeyEvent{Name: fyne.KeyLeft}) // workaround to remove the selection
+
+		se.Entry.Refresh() // Need to refresh before the workaround. If not, the old value will be reapplied to the entry. Thanks Fyne...
+		se.Entry.TypedKey(&fyne.KeyEvent{
+			Name: fyne.KeyLeft,
+		}) // workaround to remove the selection
 	} else {
 		value = se.GetDataValue(key)
 
